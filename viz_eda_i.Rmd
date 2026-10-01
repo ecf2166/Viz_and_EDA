@@ -1,0 +1,11 @@
+---
+title: "viz_eda_i"
+output: github_document
+date: "2026-10-01"
+---
+
+```{r setup}
+library(tidyverse)
+library(ggridges)
+```
+
