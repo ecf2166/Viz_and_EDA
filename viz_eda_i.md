@@ -186,3 +186,158 @@ weather_df |>
 ```
 
 ![](viz_eda_i_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+what’s a hex plot
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin, y=tmax))+
+  geom_hex() #gives an idea of the data summary and what it looks like. more shading = more common
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_binhex()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+## Univariate plots
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmax)) + 
+  geom_histogram()
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmax, fill=name)) + #color = boundary of bar instead of fill, so use fill instead
+  geom_histogram(position = "dodge") # dodge makes it so they don't overlap
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmax, fill=name)) + #color = boundary of bar instead of fill, so use fill instead
+  geom_histogram()+
+  facet_grid(. ~ name) # better than dodge
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+Density plots are great!!
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmax, color=name)) +
+  geom_density()
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_density()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmax, fill=name)) +
+  geom_density(alpha= .3)
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_density()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-15-2.png)<!-- --> Boxplots
+
+``` r
+weather_df |> 
+  ggplot(aes(x = name, y = tmax)) + #adding x separates out the 3 boxplots by name
+  geom_boxplot()
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_boxplot()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+Violin plots
+
+``` r
+weather_df |> 
+  ggplot(aes(x = name, y = tmax)) + 
+  geom_violin() # shows distribution info (density plots on the side and mirrored); like a combined density and box plots
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_ydensity()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+Ridge plots
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmax, y = name)) + 
+  geom_density_ridges() #separates curves horizontally; helpful if you have a lot of categories
+```
+
+    ## Picking joint bandwidth of 1.54
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_density_ridges()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+## Save some of the plots
+
+``` r
+ggp_weather = 
+  weather_df |> 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_point(aes(size = prcp), alpha = 0.5) +
+  facet_grid(.~name)
+
+ggp_weather
+```
+
+    ## Warning: Removed 19 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+``` r
+ggsave("images/ggp_weather.pdf", ggp_weather)
+```
+
+    ## Saving 7 x 5 in image
+
+    ## Warning: Removed 19 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin, y = tmax))+
+  geom_point()
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_eda_i_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
